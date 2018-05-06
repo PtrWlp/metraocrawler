@@ -2,13 +2,13 @@
 
 var requestP = require('request-promise');
 var cheerio = require('cheerio');
-var fs = require('fs');
+var fs = require('fs-extra');
 
 var uri = 'http://data3.eventacoustics.nl/elka31/n1kavel/live_per_station_graphdraw_public_enm.inc.php';
 var outfile = `output/metraocrawler.csv`;
 var interval = 3; // minutes 
 
-fs.writeFile(outfile, 'header;column', function (err) {
+fs.outputFile(outfile, 'header;column', function (err) {
     if (err) throw err;
 });
 
