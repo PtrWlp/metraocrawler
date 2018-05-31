@@ -14,8 +14,12 @@ var interval = 1; // minutes
 var headerHelper = true;
 
 var knmiApiKey = '6772068fdf';
-var knmiLocation = 'Geuzenveld';
+var knmiLocation = 'Halfweg';
 var knmiUrl = `http://weerlive.nl/api/json-data-10min.php?key=${knmiApiKey}&locatie=${knmiLocation}`;
+
+console.log('Collecting and writing to ', outfile);
+console.log('Weather location:', knmiLocation);
+console.log('Quit with CTRL-C');
 
 function getMeasure(onetwothree) {
 
