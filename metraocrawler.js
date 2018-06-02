@@ -5,8 +5,8 @@ var cheerio = require('cheerio');
 var fs = require('fs-extra');
 var requestSync = require('sync-request');
 var get = require('lodash.get');
-
-var uri = 'http://data3.eventacoustics.nl/elka31/n1kavel/live_per_station_graphdraw_public_enm.inc.php';
+           
+var uri = 'http://data3.eventacoustics.nl/elka31/amsterdam/live_per_station_graphdraw_calc.inc.php';
 
 var d = new Date().toISOString().slice(0,17).replace(/-/g,"").replace(/:/g,"").replace("T","-");
 var outfile = `output/metraocrawler-${d}.csv`;
@@ -46,9 +46,9 @@ function getMeasure(onetwothree) {
             var measurepoint = $(this).find('fieldset h4').text();
             var timestamp = $(this).find('fieldset h6').text().substr(11,5);
             var decibels = $(this).find('table tr td h10').toArray();
-            var dBA = $(decibels[0]).text();
-            var dBC = $(decibels[1]).text();
-            var norm = $(decibels[2]).text();
+            var dBA = $(decibels[1]).text();
+            var dBC = $(decibels[3]).text();
+            var norm = $(decibels[5]).text();
             
             fs.appendFile(outfile, `${measurepoint},${timestamp},${dBA},${dBC},${norm},${closingcolumns}\n`, function (err) {
             });
