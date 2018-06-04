@@ -1,0 +1,17 @@
+{
+  "name": "metrao raw data",
+  "version": "1.0",
+  "permissions": [
+    "tabs", "http://*/*", "https://*/*"
+  ],
+  "icons": { "48": "tagview.png", "128": "tagview.png" },
+  "browser_action": {
+      "name": "isolate plotted data into csv",
+      "default_icon": "tagview.png",
+      "default_popup": "metrao-popup.html"
+  },
+  "background": {
+    "scripts": ["metrao-background.js"]
+},
+  "manifest_version": 2
+}
