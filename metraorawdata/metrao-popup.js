@@ -10,6 +10,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });  
 
 function handleMenu(event) {
+  window.close();
   chrome.runtime.sendMessage('getMetraoData');
-
 }  

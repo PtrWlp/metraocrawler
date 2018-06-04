@@ -33,13 +33,13 @@ function copyTextToClipboard(text) {
 function dataFromScript(scriptText) {
   // get rid of formatting, two spaces become 1
   scriptText = scriptText.replace(/  /g, ' ');
-  const startOfArray = scriptText.indexOf('$.plot("#placeholder",') + 23;
+  const begintag = '$.plot("#placeholder", ';
+  const startOfArray = scriptText.indexOf(begintag) + begintag.length;
   const endOfArray = scriptText.indexOf('xaxis: {');
   console.log(startOfArray, endOfArray);
-  const arrayOfData = scriptText.substring(startOfArray, endOfArray - startOfArray);
+  const arrayOfData = scriptText.substring(startOfArray, endOfArray - 10);
 
-  console.log('firstbit', arrayOfData.substring(0,100));
-  console.log('lastbit', arrayOfData.substring(endOfArray - 100));
+  console.log('lastbit', arrayOfData.substring(arrayOfData.length - 100));
 
   // Repair the json errors
   var raw = arrayOfData.replace(/data: d(\d) =/g, '"data":').replace(/data: d(\d\d) =/g, '"data":');
@@ -52,7 +52,7 @@ function dataFromScript(scriptText) {
       result = result.replace(/shadowSize:/g, '"e":');
       
       // Metrao adds a superflouus comma at the end.. sadly.
-      result = result.replace(/]] }, \n ]/, ']] } ]');
+      result = result.replace(/,(?=[^,]*$)/, '');
       return result;
   }
 
@@ -65,6 +65,8 @@ function dataFromScript(scriptText) {
 
   var measurements = {};
   var streamlabels = [];
+
+  inputData = inputData.sort(function(a,b) {return (a.label > b.label) ? 1 : ((b.label > a.label) ? -1 : 0);} ); 
 
   // Obtain unique timestamps
   inputData.forEach(stream => {
@@ -96,6 +98,7 @@ for (let index = 0; index < scriptsFound.length; index++) {
   const script = scriptsFound[index];
   const scriptText = script.innerHTML;
   if (scriptText.indexOf('$.plot("#placeholder",') > -1) {
+    console.log('found:',script.innerHTML);
     copyTextToClipboard(dataFromScript(scriptText));
     alert('raw data is in your clipboard');
     // break;

@@ -4,10 +4,10 @@
   "permissions": [
     "tabs", "http://*/*", "https://*/*"
   ],
-  "icons": { "48": "tagview.png", "128": "tagview.png" },
+  "icons": { "48": "lagertoontje.png", "128": "lagertoontje.png" },
   "browser_action": {
       "name": "isolate plotted data into csv",
-      "default_icon": "tagview.png",
+      "default_icon": "lagertoontje.png",
       "default_popup": "metrao-popup.html"
   },
   "background": {
