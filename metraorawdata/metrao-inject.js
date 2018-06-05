@@ -36,10 +36,7 @@ function dataFromScript(scriptText) {
   const begintag = '$.plot("#placeholder", ';
   const startOfArray = scriptText.indexOf(begintag) + begintag.length;
   const endOfArray = scriptText.indexOf('xaxis: {');
-  console.log(startOfArray, endOfArray);
   const arrayOfData = scriptText.substring(startOfArray, endOfArray - 10);
-
-  console.log('lastbit', arrayOfData.substring(arrayOfData.length - 100));
 
   // Repair the json errors
   var raw = arrayOfData.replace(/data: d(\d) =/g, '"data":').replace(/data: d(\d\d) =/g, '"data":');
@@ -92,19 +89,38 @@ function dataFromScript(scriptText) {
   return result;
 }
 
-var scriptsFound = document.getElementsByTagName("script");
+var projectName = "";
+var allCol12 = document.getElementsByClassName("col_12");
+for (let index = 0; index < allCol12.length; index++) {
+  var text = allCol12[index].childNodes[0].nodeValue;
+  if (text && text.indexOf('project: ') > -1) {
+    projectName = text.replace(/,/g , ".");
+  } 
+}
 
+var scriptsFound = document.getElementsByTagName("script");
+var isCopied = false;
 for (let index = 0; index < scriptsFound.length; index++) {
   const script = scriptsFound[index];
   const scriptText = script.innerHTML;
   if (scriptText.indexOf('$.plot("#placeholder",') > -1) {
-    console.log('found:',script.innerHTML);
     copyTextToClipboard(dataFromScript(scriptText));
-    alert('raw data is in your clipboard');
-    // break;
-  }
-  
+    isCopied = true;
+    break;
+  } 
 }
 
+function selectBoxValue(id) {
+  var box = document.getElementById(id);
+  return box[box.selectedIndex].text;
+}
+var preset = selectBoxValue("userpresetnameid");
+var template = selectBoxValue("presetnameid");
+
+if (isCopied) {
+  alert(projectName + "\n" + preset + "\n" +template + "\n" + 'Raw data copied to clipboard');
+} else {
+  alert('Couldn\'t find graph data on this page');
+}
 
 

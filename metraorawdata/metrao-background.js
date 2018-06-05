@@ -1,9 +1,4 @@
 'use strict'
-var status = 'ready'
-var lastPage
-var lastAction
-var copiedValues = {}
-
 // Listens for message back from content script
 chrome.runtime.onMessage.addListener(function (request) {
   // is the message for me?
